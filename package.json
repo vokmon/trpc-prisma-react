@@ -1,0 +1,12 @@
+{
+  "name": "trpc-node-react",
+  "private": "true",
+  "scripts": {
+    "start": "concurrently npm:server npm:client",
+    "server": "cd server && npm start",
+    "client": "cd client && npm run dev"
+  },
+  "workspaces": [
+    "server"
+  ]
+}
