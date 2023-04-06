@@ -14,6 +14,7 @@ const connectRedis = async () => {
       'tRPC',
       '??Welcome to tRPC with React.js, Express and Typescript!'
     );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     console.log(err.message);
     process.exit(1);

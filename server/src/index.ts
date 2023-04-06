@@ -3,18 +3,17 @@ import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import { inferAsyncReturnType, TRPCError } from "@trpc/server";
+import { inferAsyncReturnType } from '@trpc/server';
 import * as trpcExpress from '@trpc/server/adapters/express';
-import redisClient from './utils/connectRedis';
+// import redisClient from './utils/connectRedis';
 import customConfig from './config/default';
-import connectDB from './utils/prisma';
+// import connectDB from './utils/prisma';
 import { appRouter } from './routers';
 
 dotenv.config({ path: path.join(__dirname, './.env') });
 
-
 const app = express();
-if (process.env.NODE_ENV !== "production") app.use(morgan("dev"));
+if (process.env.NODE_ENV !== 'production') app.use(morgan('dev'));
 
 const createContext = ({
   req,
@@ -25,12 +24,12 @@ export type Context = inferAsyncReturnType<typeof createContext>;
 
 app.use(
   cors({
-    origin: [customConfig.origin, "http://localhost:3000"],
+    origin: [customConfig.origin, 'http://localhost:3000'],
     credentials: true,
   })
 );
 app.use(
-  "/api/trpc",
+  '/api/trpc',
   trpcExpress.createExpressMiddleware({
     router: appRouter,
     createContext,
@@ -46,7 +45,6 @@ app.listen(port, () => {
 });
 
 export type AppRouter = typeof appRouter;
-
 
 // const createContext = ({
 //   req,
