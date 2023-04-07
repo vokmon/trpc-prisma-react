@@ -5,6 +5,15 @@ Create project
 - create docker-compose.yml and run docker compose up
 - npm install concurrently wsrun --save-dev --ws
 
+Models
+- npm i typescript --save-dev && npx tsc --init
+- ESLint
+  - npm install eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev
+  - npx eslint --init
+  - npx eslint --fix --ext .ts .
+- Prettier
+  - npm install --save-dev prettier
+  
 Server
 - create server folder
 - npm i typescript --save-dev && npx tsc --init
@@ -12,10 +21,13 @@ Server
 - ESLint
   - npm install eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev
   - npx eslint --init
-  - npx eslint --fix --ext .ts . 
+  - npx eslint --fix --ext .ts .
 - Prettier
   - npm install --save-dev prettier
-- npm install @trpc/server@next cors dotenv express @prisma/client redis && npm install --save-dev prisma @types/cors @types/express @types/node morgan @types/morgan ts-node-dev
+- npm install @trpc/server@next cors dotenv express @prisma/client redis && npm install --save-dev prisma @types/cors @types/express @types/node morgan @types/morgan ts-node-dev zod
+- install the tRPC server as a library
+  npm i --save ../server
+  npm i --save ../models
 - Prisma
   - npx prisma init
   - npx prisma migrate dev --create-only
@@ -30,6 +42,7 @@ Client
   - npm run dev
 - install the tRPC server as a library
   npm i --save ../server
+  npm i --save ../models
 - npm install eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev
   - npx eslint --init
   - npx eslint --fix --ext .ts . 

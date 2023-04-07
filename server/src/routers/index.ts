@@ -1,5 +1,6 @@
 import { t } from '../trpc';
 import { userRouter } from './users';
+import ZodSchema, { SayHelloInputType } from 'trpc-models';
 
 const delay = (duration: number) => {
   if (!duration) {
@@ -14,17 +15,23 @@ const delay = (duration: number) => {
 };
 
 export const appRouter = t.router({
-  sayHello: t.procedure.query(async () => {
-    // For React suspend testing
-    await delay(3000);
-    return 'Hello';
-  }),
-  log: t.procedure.input(v => {
-    if (typeof v === 'string') return v;
-    throw new Error('Invalid input: Expected string');
-  }).mutation(req => {
-    console.log(`Add log with message ${req.input}`);
-    return true;
-  }),
+  sayHello: t.procedure
+    .input(ZodSchema.greetings.SayHelloInput)
+    .query<string>(async (req) => {
+      // For React suspend testing
+      await delay(3000);
+
+      const input: SayHelloInputType = req.input;
+      return `Hello ${input.name}`;
+    }),
+  log: t.procedure
+    .input((v) => {
+      if (typeof v === 'string') return v;
+      throw new Error('Invalid input: Expected string');
+    })
+    .mutation((req) => {
+      console.log(`Add log with message ${req.input}`);
+      return true;
+    }),
   users: userRouter,
 });

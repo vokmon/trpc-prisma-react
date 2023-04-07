@@ -6,19 +6,7 @@ import { getFetch, httpBatchLink, loggerLink } from '@trpc/client';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
-
-function AppContent() {
-  const hello = trpc.sayHello.useQuery();
-  // Test error boundary
-  // const a: any = [];
-  // a[0].xx;
-  return (
-    <div className="container mx-auto bg-ct-dark-200 rounded-xl shadow border p-8 m-10">
-      <p className="text-3xl text-gray-700 font-bold mb-5">Welcome!</p>
-      <p className="text-ct-blue-600 text-lg">{hello.data}</p>
-    </div>
-  );
-}
+import { AppContent } from './components/app-content/AppContent';
 
 function App() {
   const [queryClient] = useState(
