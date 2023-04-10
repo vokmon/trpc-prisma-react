@@ -1,6 +1,6 @@
 import { t } from '../trpc';
 import { userRouter } from './users';
-import ZodSchema, { SayHelloInputType } from 'trpc-models';
+import ProjectSchema, { SayHelloInputType } from 'trpc-models';
 
 const delay = (duration: number) => {
   if (!duration) {
@@ -16,13 +16,13 @@ const delay = (duration: number) => {
 
 export const appRouter = t.router({
   sayHello: t.procedure
-    .input(ZodSchema.greetings.SayHelloInput)
+    .input(ProjectSchema.greetings.SayHelloInput)
     .query<string>(async (req) => {
       // For React suspend testing
-      await delay(3000);
+      await delay(1000);
 
       const input: SayHelloInputType = req.input;
-      return `Hello ${input.name}`;
+      return `Hello ${input.name} ${new Date()}`;
     }),
   log: t.procedure
     .input((v) => {

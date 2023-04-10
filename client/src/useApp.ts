@@ -9,9 +9,12 @@ export const useInitTrpc = () => {
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: 1000 * 60 * 5,
-            suspense: true,
+            // staleTime: 1000 * 60 * 5, // default for staleTime is set to zero, React Query will consider our request as stale (or not fresh) and trigger the second call in the background
+            // suspense: true,
+            cacheTime: 0, // React Query will always cache your request responses for up to 5 minutes by default
             useErrorBoundary: true,
+            // refetchOnMount: false,
+            refetchOnWindowFocus: false,
           },
         },
       })

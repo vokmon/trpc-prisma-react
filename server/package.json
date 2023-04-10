@@ -32,7 +32,6 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "redis": "^4.6.5",
-    "trpc-models": "file:models",
     "zod": "^3.21.4"
   }
 }
