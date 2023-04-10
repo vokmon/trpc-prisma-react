@@ -31,13 +31,30 @@ function AppContent3() {
   const queryClient = useQueryClient();
 
   return (
-    <button
-      onClick={() => {
-        queryClient.refetchQueries(getQueryKey(trpc.sayHello));
-      }}
-    >
-      Refresh from another component
-    </button>
+    <div className="flex flex-col items-start mt-10 gap-3">
+      <button
+        className="bg-blue-500 hover:bg-blue-700 rounded-md py-2 px-4"
+        onClick={() => {
+          queryClient.refetchQueries(getQueryKey(trpc.sayHello));
+        }}
+      >
+        Refresh from another component
+      </button>
+      <button
+        className="bg-orange-600 hover:bg-orange-800 rounded-md py-2 px-4"
+        onClick={() => {
+          const x = queryClient.setQueriesData(
+            getQueryKey(trpc.sayHello),
+            (data) => {
+              return `New data - ${data}`;
+            }
+          );
+          console.log(x);
+        }}
+      >
+        Update Data manually
+      </button>
+    </div>
   );
 }
 export function AppContent() {
