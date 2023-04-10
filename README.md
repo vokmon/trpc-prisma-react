@@ -31,7 +31,9 @@ Server
   - npx prisma init
   - npx prisma migrate dev --create-only
   - npx prisma migrate dev / npx prisma db push
-
+- Unit tests
+  - npm i --save-dev @types/jest jest
+  - npx jest --init
 
 Client
 - go to root folder and run npm create vite@latest

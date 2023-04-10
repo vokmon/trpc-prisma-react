@@ -7,7 +7,7 @@ import { getQueryKey } from '@trpc/react-query';
 
 function AppContent2() {
   const input: SayHelloInputType = { name: 'View' };
-  const hello = trpc.sayHello.useQuery(input, {
+  const hello = trpc.hello.sayHello.useQuery(input, {
     // staleTime: 1000 * 5,
     // suspense: true,
     cacheTime: 0,
@@ -35,7 +35,7 @@ function AppContent3() {
       <button
         className="bg-blue-500 hover:bg-blue-700 rounded-md py-2 px-4"
         onClick={() => {
-          queryClient.refetchQueries(getQueryKey(trpc.sayHello));
+          queryClient.refetchQueries(getQueryKey(trpc.hello.sayHello));
         }}
       >
         Refresh from another component
@@ -44,7 +44,7 @@ function AppContent3() {
         className="bg-orange-600 hover:bg-orange-800 rounded-md py-2 px-4"
         onClick={() => {
           const x = queryClient.setQueriesData(
-            getQueryKey(trpc.sayHello),
+            getQueryKey(trpc.hello.sayHello),
             (data) => {
               return `New data - ${data}`;
             }

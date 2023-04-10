@@ -3,24 +3,24 @@ import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import { inferAsyncReturnType } from '@trpc/server';
 import * as trpcExpress from '@trpc/server/adapters/express';
 // import redisClient from './utils/connectRedis';
 import customConfig from './config/default';
-// import connectDB from './utils/prisma';
+import connectDB from './utils/prisma';
 import { appRouter } from './routers';
+import { createContext } from './utils/trpc';
 
 dotenv.config({ path: path.join(__dirname, './.env') });
 
 const app = express();
 if (process.env.NODE_ENV !== 'production') app.use(morgan('dev'));
 
-const createContext = ({
-  req,
-  res,
-}: trpcExpress.CreateExpressContextOptions) => ({ req, res });
+// const createContext = ({
+//   req,
+//   res,
+// }: trpcExpress.CreateExpressContextOptions) => ({ req, res, userxx: {name11: 'abc'} });
 
-export type Context = inferAsyncReturnType<typeof createContext>;
+// export type Context = inferAsyncReturnType<typeof createContext>;
 
 app.use(
   cors({
@@ -41,7 +41,7 @@ app.listen(port, () => {
   console.log(`🚀 Server listening on port ${port}`);
 
   // CONNECT DB
-  // connectDB();
+  connectDB();
 });
 
 export type AppRouter = typeof appRouter;

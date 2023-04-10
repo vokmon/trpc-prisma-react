@@ -24,6 +24,7 @@
             "type"
         ],
         "quotes": [2, "single", { "avoidEscape": true }],
-        "semi": [2, "always"]
+        "semi": [2, "always"],
+        "@typescript-eslint/no-non-null-assertion": 0
     }
 }
