@@ -3,21 +3,43 @@ import UserInputForm from './UserInputForm';
 import ProjectSchema, {
   UserInputForCreateType,
   UserInputType,
+  UserObjectType,
 } from 'trpc-models';
-import { useForm } from 'react-hook-form';
+import { UseFormReturn, useForm } from 'react-hook-form';
+import { trpc } from '../../../../utils/trpc';
 
-export default function CreateUserInputForm() {
-  const formConfig = useForm<UserInputType>({
+type IProp = {
+  onCreateSuccess: (user: UserObjectType) => void;
+};
+
+export default function CreateUserInputForm({ onCreateSuccess }: IProp) {
+  const formConfig: UseFormReturn<UserInputType> = useForm<UserInputType>({
     mode: 'all',
     resolver: zodResolver(ProjectSchema.users.UserInputForCreate),
   });
 
+  const userMutation = trpc.users.createUser.useMutation();
+  const { mutateAsync, isSuccess, isError, error, reset } = userMutation;
+
   const processForm = async (data: UserInputType) => {
-    console.log(data);
-    const t = data as UserInputForCreateType;
-    console.log(t);
+    const user = data as UserInputForCreateType;
+    const result = await mutateAsync(user);
     formConfig.reset();
+    onCreateSuccess(result);
+    setTimeout(() => {
+      reset();
+    }, 3000);
   };
 
-  return <UserInputForm formConfig={formConfig} onSubmit={processForm} />;
+  return (
+    <div>
+      <UserInputForm formConfig={formConfig} onSubmit={processForm} />
+      {isSuccess && (
+        <div className="mt-10 text-center text-green-500">Save success</div>
+      )}
+      {isError && (
+        <div className="mt-10 text-center text-red-500">{error.message}</div>
+      )}
+    </div>
+  );
 }

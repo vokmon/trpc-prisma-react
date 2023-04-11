@@ -17,4 +17,5 @@ export type SayHelloInputType = z.infer<typeof greetings.SayHelloInput>;
  */
 export type UserInputType = z.infer<typeof users.UserInput>;
 export type UserInputForCreateType = z.infer<typeof users.UserInputForCreate>;
+export type UserInputForUpdateType = z.infer<typeof users.UserInputForUpdate>;
 export type UserObjectType = z.infer<typeof users.UserObject>;

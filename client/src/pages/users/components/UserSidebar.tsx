@@ -1,14 +1,19 @@
 import UserSearchInput from './UserSearchInput';
 import GoToCreateUserPageAction from '../actions/GoToCreateUserPageAction';
+import UserList from './user-list/UserList';
 
 export default function UserSidebar() {
   return (
-    <div className="flex flex-col w-[27rem] bg-slate-500 p-2 box-border">
+    <div className="flex flex-col w-[27rem] p-2 box-border border-r-2">
       <div className="flex justify-start gap-2">
-        <UserSearchInput />
+        <UserSearchInput
+          onSearchSubmit={(search) => {
+            console.log(search);
+          }}
+        />
         <GoToCreateUserPageAction />
       </div>
-      <div className="overflow-y-auto bg-red-300 mt-1 flex-grow">User list</div>
+      <UserList />
     </div>
   );
 }

@@ -21,6 +21,24 @@ export const UserInputForCreate = UserInput.extend({
   message: "Confirm password don't match",
 });
 
+export const UserInputForUpdate = UserInput.extend({
+  id: z.string().uuid(),
+  password: z.string().optional().refine((p) => !p || p.length >= 6, {
+    message: 'Must be atleast 6 characters',
+  }),
+  confirmPassword: z.string().optional().refine((p) => !p || p.length >= 6, {
+    message: 'Must be atleast 6 characters',
+  }),
+}).refine(
+  (data) =>
+    (!data.password && !data.confirmPassword) ||
+    data.password === data.confirmPassword,
+  {
+    path: ['confirmPassword'],
+    message: "Confirm password don't match",
+  }
+);
+
 export const UserObject = UserInput.extend({
-  id: z.string(),
+  id: z.string().uuid(),
 });

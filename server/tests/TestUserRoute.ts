@@ -1,5 +1,5 @@
 import { appRouter } from '../src/routers';
-import { UserInputForCreateType } from 'trpc-models';
+import { UserInputForCreateType, UserInputForUpdateType } from 'trpc-models';
 
 describe('Test user route', () => {
   let createUserIds: string[] = [];
@@ -59,6 +59,77 @@ describe('Test user route', () => {
       .users.getAllUsers();
     expect(result.length).toEqual(5);
   });
+
+  it('Should get user by id successfully', async () => {
+    const result = await appRouter
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      .createCaller({ req: {}, res: {} })
+      .users.getUserById(createUserIds[0]);
+
+    expect(result).toEqual(
+      expect.objectContaining({
+        name: 'John1',
+        lastName: 'Doe1',
+        email: '1john.doe@test.com',
+        role: 'user',
+      })
+    );
+  });
+
+  it('Should update user successfully without password', async () => {
+    const updateUser: UserInputForUpdateType = {
+      id: createUserIds[0],
+      name: 'John',
+      lastName: 'Doe',
+      email: '11john.doe@test.com',
+      role: 'user',
+    };
+
+    const result = await appRouter
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      .createCaller({ req: {}, res: {} })
+      .users.updateUser(updateUser);
+
+    expect(result).toEqual(
+      expect.objectContaining({
+        name: 'John',
+        lastName: 'Doe',
+        email: '11john.doe@test.com',
+        role: 'user',
+      })
+    );
+  });
+
+  it('Should update user successfully with password', async () => {
+    const updateUser: UserInputForUpdateType = {
+      id: createUserIds[0],
+      name: 'John',
+      lastName: 'Doe',
+      email: '11john.doe@test.com',
+      role: 'user',
+      password: '111111',
+      confirmPassword: '111111',
+    };
+
+    const result = await appRouter
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      .createCaller({ includePassword: true })
+      .users.updateUser(updateUser);
+
+    expect(result).toEqual(
+      expect.objectContaining({
+        name: 'John',
+        lastName: 'Doe',
+        email: '11john.doe@test.com',
+        role: 'user',
+        password: '111111',
+      })
+    );
+  });
+
   afterAll(async () => {
     await appRouter
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

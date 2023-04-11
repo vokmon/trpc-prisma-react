@@ -6,12 +6,6 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 export const userRouter = t.router({
-  /**
-   * Get User
-   */
-  getUser: t.procedure.query(async () => {
-    return { id: 1, name: 'John' };
-  }),
   createUser: t.procedure
     .input(ProjectSchema.users.UserInputForCreate)
     .mutation<UserObjectType>(async ({ input }) => {
@@ -38,7 +32,39 @@ export const userRouter = t.router({
       }
       throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
     }),
+  updateUser: t.procedure
+    .input(ProjectSchema.users.UserInputForUpdate)
+    .mutation<UserObjectType>(async ({ input, ctx }) => {
+      console.log(`Add log with message ${JSON.stringify(input)}`);
+      const user = {
+        name: input.name,
+        lastName: input.lastName,
+        email: input.email,
+        password: input.password || undefined,
+        role: RoleEnumType[input.role],
+      };
+      const updatedUser = await prisma.user.update({
+        where: {
+          id: input.id,
+        },
+        data: user,
+      });
 
+      console.log(ctx);
+      if (updatedUser) {
+        return {
+          id: updatedUser.id || '',
+          name: updatedUser.name || '',
+          lastName: updatedUser.lastName || '',
+          email: updatedUser.email || '',
+          role: RoleEnumType[input.role],
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          password: ctx.includePassword ? updatedUser.password : undefined,
+        };
+      }
+      throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+    }),
   getAllUsers: t.procedure.query(async () => {
     const users = await prisma.user.findMany({
       select: {
@@ -54,7 +80,7 @@ export const userRouter = t.router({
         },
         {
           lastName: 'asc',
-        }
+        },
       ],
     });
 
@@ -69,6 +95,24 @@ export const userRouter = t.router({
       return result;
     }
     return [];
+  }),
+  getUserById: t.procedure.input(z.string().uuid()).query(async ({ input }) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: input,
+      },
+    });
+
+    if (user) {
+      return {
+        id: user.id || '',
+        name: user.name || '',
+        lastName: user.lastName || '',
+        email: user.email || '',
+        role: RoleEnumType[user.role!],
+      };
+    }
+    return null;
   }),
   deleteUsers: t.procedure
     .input(z.string().array())
