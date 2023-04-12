@@ -1,18 +1,20 @@
+import { useContext } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import UserInputForm from './UserInputForm';
 import ProjectSchema, {
   UserInputForCreateType,
   UserInputType,
-  UserObjectType,
 } from 'trpc-models';
 import { UseFormReturn, useForm } from 'react-hook-form';
 import { trpc } from '../../../../utils/trpc';
+import { UserPageContext } from '../../UserPageHooks';
+import { useStore } from 'zustand';
 
-type IProp = {
-  onCreateSuccess: (user: UserObjectType) => void;
-};
+export default function CreateUserInputForm() {
+  const userPageContext = useContext(UserPageContext);
+  const refreshUsers = useStore(userPageContext!.userPageStore!, (state) => state.refreshUsers);
 
-export default function CreateUserInputForm({ onCreateSuccess }: IProp) {
+
   const formConfig: UseFormReturn<UserInputType> = useForm<UserInputType>({
     mode: 'all',
     resolver: zodResolver(ProjectSchema.users.UserInputForCreate),
@@ -24,8 +26,10 @@ export default function CreateUserInputForm({ onCreateSuccess }: IProp) {
   const processForm = async (data: UserInputType) => {
     const user = data as UserInputForCreateType;
     const result = await mutateAsync(user);
+    console.log(result);
     formConfig.reset();
-    onCreateSuccess(result);
+    // onCreateSuccess(result);
+    refreshUsers();
     setTimeout(() => {
       reset();
     }, 3000);

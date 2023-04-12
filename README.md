@@ -54,3 +54,4 @@ Client
    - postcss.config.js
    - tailwind.config.js
 - npm i react-hook-form zod @hookform/resolvers
+- npm i zustand

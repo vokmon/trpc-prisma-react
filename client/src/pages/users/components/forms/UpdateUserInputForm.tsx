@@ -6,8 +6,10 @@ import UserInputForm from './UserInputForm';
 import ProjectSchema, {
   UserInputForUpdateType,
   UserInputType,
-  UserObjectType,
 } from 'trpc-models';
+import { UserPageContext } from '../../UserPageHooks';
+import { useContext } from 'react';
+import { useStore } from 'zustand';
 
 const usePrepareData = (userId: string) => {
   // const { userId } = useParams();
@@ -28,18 +30,17 @@ const usePrepareData = (userId: string) => {
   };
 };
 
-type IProp = {
-  onUpdateSuccess: (user: UserObjectType) => void;
-};
+export default function UpdateUserInputForm() {
+  const userPageContext = useContext(UserPageContext);
+  const refreshUsers = useStore(userPageContext!.userPageStore!, (state) => state.refreshUsers);
 
-export default function UpdateUserInputForm({ onUpdateSuccess }: IProp) {
   const { userId } = useParams();
   const { userQuery, formConfig } = usePrepareData(userId || '');
 
   const userMutation = trpc.users.updateUser.useMutation();
   const { mutateAsync, isSuccess, isError, error, reset } = userMutation;
 
-  if (userQuery.isFetching) {
+  if (userQuery.isLoading) {
     return <p>Loading...</p>;
   }
 
@@ -48,7 +49,8 @@ export default function UpdateUserInputForm({ onUpdateSuccess }: IProp) {
     const result = await mutateAsync({ ...user, id: userId || '' });
     formConfig.reset();
     userQuery.refetch();
-    onUpdateSuccess(result);
+    console.log(result);
+    refreshUsers();
     setTimeout(() => {
       reset();
     }, 3000);
