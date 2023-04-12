@@ -4,12 +4,13 @@ import UserCard from './UserCard';
 import { UserPageContext } from '../../UserPageHooks';
 import { useContext, useDeferredValue } from 'react';
 import { useStore } from 'zustand';
+import { UserObjectType } from 'trpc-models';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const x = (filterData: any = []) => {
-  const result: any = [];
+const x = (filterData: UserObjectType[] = []) => {
+  const result: UserObjectType[] = [];
   for (let i = 0; i < 1000; i++) {
-    filterData.forEach((f: any) => {
+    filterData.forEach((f: UserObjectType) => {
       result.push(f);
     });
   }
@@ -67,7 +68,7 @@ export default function UserList() {
   }
   return (
     <div className="flex flex-col overflow-y-auto mt-1 flex-grow gap-2">
-      {deferredValue?.map((user: any, index: number) => (
+      {deferredValue?.map((user: UserObjectType, index: number) => (
         <UserCard
           key={`${user.id}-${index}`}
           user={user}
