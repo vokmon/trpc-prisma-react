@@ -3,7 +3,7 @@ import { authorizedProcedure, t } from '../utils/trpc';
 import { z } from 'zod';
 import userController from '../controllers/userController';
 
-export const userRouter = t.router({
+export const usersProtectedRoute = t.router({
   createUser: authorizedProcedure
     .input(ProjectSchema.users.UserInputForCreate)
     .mutation<UserObjectType>(async ({ input }) => {

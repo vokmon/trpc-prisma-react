@@ -21,8 +21,8 @@ const authorizedMiddleware = t.middleware(async ({ ctx, next }) => {
   // Get the token
   let access_token;
   if (
-    ctx.req.headers.authorization &&
-    ctx.req.headers.authorization.startsWith('Bearer')
+    ctx?.req?.headers?.authorization &&
+    ctx?.req?.headers?.authorization?.startsWith('Bearer')
   ) {
     access_token = ctx.req.headers.authorization.split(' ')[1];
   } else if (ctx.req.cookies?.access_token) {
