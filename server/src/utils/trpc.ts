@@ -20,6 +20,8 @@ export const t = initTRPC.context<Context>().create();
 const authorizedMiddleware = t.middleware(async ({ ctx, next }) => {
   // Get the token
   let access_token;
+
+  console.log(ctx.req.cookies);
   if (
     ctx?.req?.headers?.authorization &&
     ctx?.req?.headers?.authorization?.startsWith('Bearer')

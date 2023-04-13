@@ -18,7 +18,7 @@ const x = (filterData: UserObjectType[] = []) => {
 };
 
 export default function UserList() {
-  const users = trpc.users.getAllUsers.useQuery(undefined, {
+  const users = trpc.usersProtected.getAllUsers.useQuery(undefined, {
     // staleTime: 1000 * 5,
     // suspense: true,
     cacheTime: 0,

@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { QueryClient } from '@tanstack/react-query';
 import { getFetch, httpBatchLink, loggerLink } from '@trpc/client';
 import { trpc } from './utils/trpc';
+import { useStore } from 'zustand';
+import { useUserStore } from './stores/UserStores';
+import appUtils from './utils/appUtils';
 
 export const useInitTrpc = () => {
   const [queryClient] = useState(
@@ -42,4 +45,13 @@ export const useInitTrpc = () => {
     queryClient,
     trpcClient,
   };
+};
+
+export const useCheckCookieLogin = () => {
+  const setIsLoggedIn = useStore(useUserStore, (state) => state.setIsLoggedIn);
+  useEffect(() => {
+    if (appUtils.checkUserLogin()) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 };

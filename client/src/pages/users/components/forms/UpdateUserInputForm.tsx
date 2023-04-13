@@ -13,9 +13,9 @@ import { useStore } from 'zustand';
 
 const usePrepareData = (userId: string) => {
   // const { userId } = useParams();
-  const userQuery = trpc.users.getUserById.useQuery(userId, {
+  const userQuery = trpc.usersProtected.getUserById.useQuery(userId, {
     cacheTime: 0,
-    queryKey: ['users.getUserById', userId],
+    queryKey: ['usersProtected.getUserById', userId],
   });
 
   const formConfig: UseFormReturn<UserInputType> = useForm<UserInputType>({
@@ -37,7 +37,7 @@ export default function UpdateUserInputForm() {
   const { userId } = useParams();
   const { userQuery, formConfig } = usePrepareData(userId || '');
 
-  const userMutation = trpc.users.updateUser.useMutation();
+  const userMutation = trpc.usersProtected.updateUser.useMutation();
   const { mutateAsync, isSuccess, isError, error, reset } = userMutation;
 
   if (userQuery.isLoading) {

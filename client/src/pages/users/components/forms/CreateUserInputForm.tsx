@@ -20,7 +20,7 @@ export default function CreateUserInputForm() {
     resolver: zodResolver(ProjectSchema.users.UserInputForCreate),
   });
 
-  const userMutation = trpc.users.createUser.useMutation();
+  const userMutation = trpc.usersProtected.createUser.useMutation();
   const { mutateAsync, isSuccess, isError, error, reset } = userMutation;
 
   const processForm = async (data: UserInputType) => {

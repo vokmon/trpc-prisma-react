@@ -16,7 +16,7 @@ export const createUserPageStoreWithStorage = (queryClient: QueryClient) => {
         filterString: '',
         setFilterString: (value: string) => set({ filterString: value }),
         refreshUsers: () => {
-          queryClient.refetchQueries(getQueryKey(trpc.users.getAllUsers));
+          queryClient.refetchQueries(getQueryKey(trpc.usersProtected.getAllUsers));
         },
       }),
       {
@@ -36,7 +36,7 @@ const createUserPageStore = (queryClient: QueryClient) => {
     filterString: '',
     setFilterString: (value: string) => set({ filterString: value }),
     refreshUsers: () => {
-      queryClient.refetchQueries(getQueryKey(trpc.users.getAllUsers));
+      queryClient.refetchQueries(getQueryKey(trpc.usersProtected.getAllUsers));
     },
   }));
 };

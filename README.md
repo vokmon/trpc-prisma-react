@@ -25,8 +25,8 @@ Server
 - Prettier
   - npm install --save-dev prettier
 - npm install @trpc/server@next cors dotenv express @prisma/client redis && npm install --save-dev prisma @types/cors @types/express @types/node morgan @types/morgan ts-node-dev zod
-- npm i bcrypt jsonwebtoken
-- npm i -D @types/bcrypt @types/jsonwebtoken
+- npm i cookie-parser bcrypt jsonwebtoken
+- npm i -D @types/cookie-parser @types/bcrypt @types/jsonwebtoken
 
 - install the tRPC server as a library
   npm i -w ../models
