@@ -1,17 +1,6 @@
 import { t } from '../utils/trpc';
 import ProjectSchema, { SayHelloInputType } from 'trpc-models';
-
-const delay = (duration: number) => {
-  if (!duration) {
-    return Promise.resolve();
-  }
-  return new Promise<void>((resolve) => {
-    const timer = setTimeout(() => {
-      clearTimeout(timer);
-      resolve();
-    }, duration);
-  });
-};
+import { delay } from '../utils/utils';
 
 export const helloRouter = t.router({
   sayHello: t.procedure

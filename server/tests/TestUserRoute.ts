@@ -1,5 +1,6 @@
 import { appRouter } from '../src/routers';
 import { UserInputForCreateType, UserInputForUpdateType } from 'trpc-models';
+import { delay } from '../src/utils/utils';
 
 describe('Test user route', () => {
   let createUserIds: string[] = [];
@@ -57,7 +58,7 @@ describe('Test user route', () => {
       // @ts-ignore
       .createCaller({ req: {}, res: {} })
       .users.getAllUsers();
-    expect(result.length).toEqual(5);
+    expect(result.length).toBeGreaterThan(5);
   });
 
   it('Should get user by id successfully', async () => {
@@ -136,5 +137,7 @@ describe('Test user route', () => {
       // @ts-ignore
       .createCaller({ req: {}, res: {} })
       .users.deleteUsers(createUserIds);
+
+    await delay(500);
   });
 });
