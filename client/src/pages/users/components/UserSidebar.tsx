@@ -1,6 +1,7 @@
 import UserSearchInput from './UserSearchInput';
 import GoToCreateUserPageAction from '../actions/GoToCreateUserPageAction';
 import UserList from './user-list/UserList';
+import AppErrorBoundary from '../../../components/error/AppErrorBoundary';
 
 export default function UserSidebar() {
   return (
@@ -9,7 +10,9 @@ export default function UserSidebar() {
         <UserSearchInput />
         <GoToCreateUserPageAction />
       </div>
-      <UserList />
+      <AppErrorBoundary>
+        <UserList />
+      </AppErrorBoundary>
     </div>
   );
 }

@@ -1,28 +1,16 @@
 import { useEffect, useState } from 'react';
 import { QueryClient } from '@tanstack/react-query';
-import { getFetch, httpBatchLink, loggerLink } from '@trpc/client';
+import {
+  getFetch,
+  httpBatchLink,
+  loggerLink,
+} from '@trpc/client';
 import { trpc } from './utils/trpc';
 import { useStore } from 'zustand';
 import { useUserStore } from './stores/UserStores';
 import appUtils from './utils/appUtils';
 
 export const useInitTrpc = () => {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            // staleTime: 1000 * 60 * 5, // default for staleTime is set to zero, React Query will consider our request as stale (or not fresh) and trigger the second call in the background
-            // suspense: true,
-            cacheTime: 0, // React Query will always cache your request responses for up to 5 minutes by default
-            useErrorBoundary: true,
-            // refetchOnMount: false,
-            refetchOnWindowFocus: false,
-          },
-        },
-      })
-  );
-
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
@@ -41,6 +29,23 @@ export const useInitTrpc = () => {
     })
   );
 
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            // staleTime: 1000 * 60 * 5, // default for staleTime is set to zero, React Query will consider our request as stale (or not fresh) and trigger the second call in the background
+            // suspense: true,
+            cacheTime: 0, // React Query will always cache your request responses for up to 5 minutes by default
+            useErrorBoundary: true,
+            // refetchOnMount: false,
+            refetchOnWindowFocus: false,
+            retry: false,
+          },
+        },
+      })
+  );
+
   return {
     queryClient,
     trpcClient,
@@ -48,10 +53,15 @@ export const useInitTrpc = () => {
 };
 
 export const useCheckCookieLogin = () => {
-  const setIsLoggedIn = useStore(useUserStore, (state) => state.setIsLoggedIn);
+  const setTokens = useStore(useUserStore, (state) => state.setTokens);
   useEffect(() => {
-    if (appUtils.checkUserLogin()) {
-      setIsLoggedIn(true);
+    const accessToken = appUtils.getCookie('access_token');
+    const refreshToken = appUtils.getCookie('refresh_token');
+    if (accessToken && refreshToken) {
+      setTokens({
+        accessToken,
+        refreshToken,
+      });
     }
   }, []);
 };

@@ -16,7 +16,6 @@ const userStore = persist<{
   tokens: UserTokensType | null;
   isLoggedIn: boolean;
   setTokens: (tokens: UserTokensType) => void;
-  setIsLoggedIn: (isLoggedIn: boolean) => void;
   resetStore: () => void;
 }>(
   (set) => ({
@@ -30,7 +29,6 @@ const userStore = persist<{
           refreshToken,
         },
       }),
-    setIsLoggedIn: (isLoggedIn) => set({ isLoggedIn }),
     resetStore: () => set(initialState),
   }),
   {
