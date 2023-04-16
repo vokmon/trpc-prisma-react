@@ -4,6 +4,9 @@ import { AppContent } from '../app-content/AppContent';
 import UsersPage from '../users/UsersPage';
 import LoginPage from '../login/LoginPage';
 import { ProtectedRoute } from '../../routes/ProtectedRoute';
+import TestUseQuery from '../test-usequrey/TestUseQuery';
+import IframeParent from '../iframe-route/IframeParent';
+import IframeChid from '../iframe-route/IframeChid';
 
 const menuItems = [
   { title: 'Home', url: '/', index: true, element: <AppContent /> },
@@ -19,6 +22,8 @@ const menuItems = [
     hasChildren: true,
     isProtectedRoute: true,
   },
+  { title: 'Test', url: '/test', element: <TestUseQuery /> },
+  { title: 'Test Iframe', url: '/test-iframe', element: <IframeParent /> },
 ];
 
 export default function MainContainer() {
@@ -37,6 +42,7 @@ export default function MainContainer() {
               />
             );
           })}
+          <Route path="/iframe-children" element={<IframeChid />} />
           <Route
             path="*"
             caseSensitive={false}

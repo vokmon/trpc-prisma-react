@@ -14,9 +14,9 @@ const initialState = {
 
 const userStore = persist<{
   tokens: UserTokensType | null;
-  isLoggedIn: boolean;
-  setTokens: (tokens: UserTokensType) => void;
-  resetStore: () => void;
+  isLoggedIn?: boolean;
+  setTokens?: (tokens: UserTokensType) => void;
+  resetStore?: () => void;
 }>(
   (set) => ({
     tokens: null,
@@ -33,6 +33,10 @@ const userStore = persist<{
   }),
   {
     name: 'user-store', // name of item in the storage (must be unique)
+    // partialize: state => ({
+    //   tokens: state.tokens,
+    //   // isLoggedIn: state.isLoggedIn,
+    // }),
     storage: createJSONStorage(() => sessionStorage), // (optional) by default the 'localStorage' is used
   }
 );
