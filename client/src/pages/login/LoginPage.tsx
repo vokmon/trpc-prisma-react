@@ -32,7 +32,9 @@ export default function LoginPage() {
       accessToken: result.access_token || '',
       refreshToken: result.refresh_token || '',
     };
-    setTokens(tokens);
+    if (setTokens) {
+      setTokens(tokens);
+    }
     formReset();
     navigate('/users');
   };
