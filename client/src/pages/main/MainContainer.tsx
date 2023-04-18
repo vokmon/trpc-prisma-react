@@ -7,6 +7,7 @@ import { ProtectedRoute } from '../../routes/ProtectedRoute';
 import TestUseQuery from '../test-usequrey/TestUseQuery';
 import IframeParent from '../iframe-route/IframeParent';
 import IframeChid from '../iframe-route/IframeChid';
+import TestMui from '../mui/TestMui';
 
 const menuItems = [
   { title: 'Home', url: '/', index: true, element: <AppContent /> },
@@ -24,6 +25,7 @@ const menuItems = [
   },
   { title: 'Test', url: '/test', element: <TestUseQuery /> },
   { title: 'Test Iframe', url: '/test-iframe', element: <IframeParent /> },
+  { title: 'Test Mui', url: '/test-mui', element: <TestMui /> },
 ];
 
 export default function MainContainer() {
